@@ -13,29 +13,14 @@ find_path(LASLIB_INCLUDE_DIR lasreader.hpp
   HINTS
   $ENV{LASTools_DIR}
   ${LASTools_DIR}
-  PATH_SUFFIXES LASlib/inc/
+  PATH_SUFFIXES
+  LASlib/inc/ # Linux after making
+  include/LASlib/ # after using CMake
   PATHS
   ~/Library/Frameworks
   /Library/Frameworks
   /usr/local/include/LASlib
   /usr/include/LASlib
-  /sw # Fink
-  /opt/local # DarwinPorts
-  /opt/csw # Blastwave
-  /opt
-  )
-
-# Find the include for LASzip
-find_path(LASZIP_INCLUDE_DIR laszip.hpp
-  HINTS
-  $ENV{LASTools_DIR}
-  ${LASTools_DIR}
-  PATH_SUFFIXES LASzip/src/
-  PATHS
-  ~/Library/Frameworks
-  /Library/Frameworks
-  /usr/local/include/LASzip
-  /usr/include/LASzip
   /sw # Fink
   /opt/local # DarwinPorts
   /opt/csw # Blastwave
@@ -48,7 +33,8 @@ find_library(LASLIB_LIBRARY_TMP NAMES las LAS LASlib.lib
   ${LASTools_DIR}
   PATH_SUFFIXES
   LASlib/lib/
-  LASlib/lib/RelWithDebInfo
+  LASlib/lib/RelWithDebInfo/
+  lib/LASlib/ # After using CMake
   PATHS
   /sw
   /opt/local
@@ -58,14 +44,15 @@ find_library(LASLIB_LIBRARY_TMP NAMES las LAS LASlib.lib
 
 set(LASTOOLS_FOUND FALSE)
 if (LASLIB_LIBRARY_TMP)
-  set(LASTOOLS_LIBRARIES ${LASLIB_LIBRARY_TMP} CACHE STRING "Where the LAStools LASlib library can be found")
-  set(LASTOOLS_INCLUDE_DIRS ${LASLIB_INCLUDE_DIR} ${LASZIP_INCLUDE_DIR} CACHE
-    STRING "Include directories for LASlib and LASzip")
+  set(LASTOOLS_LIBRARIES ${LASLIB_LIBRARY_TMP} CACHE STRING
+    "Where the LAStools LASlib library can be found")
+  set(LASTOOLS_INCLUDE_DIRS ${LASLIB_INCLUDE_DIR} CACHE
+    STRING "Include directories for LASlib")
   set(LASLIB_LIBRARY_TMP ${LASLIB_LIBRARY_TMP} CACHE INTERNAL "")
   set(LASTOOLS_FOUND TRUE)
 endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LASTools REQUIRED_VARS LASTOOLS_LIBRARIES
-  LASLIB_INCLUDE_DIR LASZIP_INCLUDE_DIR LASTOOLS_INCLUDE_DIRS)
+  LASLIB_INCLUDE_DIR LASTOOLS_INCLUDE_DIRS)
 

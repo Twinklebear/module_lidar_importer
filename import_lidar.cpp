@@ -130,5 +130,9 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
   world->add(lidarGeom);
 }
 
-OSPSG_REGISTER_IMPORT_FUNCTION(importLAS, las);
+extern "C" OSPRAY_DLLEXPORT void ospray_init_module_lidar_import() {
+  std::cout << "Loading LiDAR importer module\n";
+}
+
+OSPSG_REGISTER_IMPORT_FUNCTION(importLAS, lidar);
 
