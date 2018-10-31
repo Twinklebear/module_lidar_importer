@@ -10,3 +10,10 @@ the module. You can also hint at where to find LASTools, by passing
 `-DLASTools_DIR=<path>`. The path for LASTools should be to the root of the
 unzipped LASTools directory.
 
+You can then load the module and use it to import LiDAR data into the
+OSPRay example viewer via:
+
+```
+./ospExampleViewer --module lidar_import --import:lidar:<path to las/laz>
+```
+
