@@ -42,11 +42,13 @@ find_path(LASZIP_INCLUDE_DIR laszip.hpp
   /opt
   )
 
-find_library(LASLIB_LIBRARY_TMP NAMES las LAS
+find_library(LASLIB_LIBRARY_TMP NAMES las LAS LASlib.lib
   HINTS
   $ENV{LASTools_DIR}
   ${LASTools_DIR}
-  PATH_SUFFIXES LASlib/lib/
+  PATH_SUFFIXES
+  LASlib/lib/
+  LASlib/lib/RelWithDebInfo
   PATHS
   /sw
   /opt/local
