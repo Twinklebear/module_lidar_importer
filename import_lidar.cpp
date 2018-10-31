@@ -76,7 +76,8 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
   const vec3f max_pt(reader->get_max_x(), reader->get_max_y(), reader->get_max_z());
   const vec3f diagonal = max_pt - min_pt;
 
-  ospcommon::containers::AlignedVector<vec3f> points, colors;
+  ospcommon::containers::AlignedVector<vec3f> points;
+  ospcommon::containers::AlignedVector<vec4uc> colors;
   points.reserve(reader->npoints);
   colors.reserve(reader->npoints);
   int num_noise = 0;
@@ -100,14 +101,8 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
     else {
       c = vec3f(1.0);
     }
-    // TODO: This needs the sphere-colors PR to add UCHAR4 color format support
-    // on the spheres geometry
-    //uint32_t col_masked = 0;
-    //SET_RED(col_masked, static_cast<int>(c.x * 255));
-    //SET_GREEN(col_masked, static_cast<int>(c.y * 255));
-    //SET_BLUE(col_masked, static_cast<int>(c.z * 255));
     points.push_back(p);
-    colors.push_back(c);
+    colors.push_back(vec4uc(c.x * 255.0, c.y * 255.0, c.z * 255.0, 255));
   }
   std::cout << "Discarded " << num_noise << " noise classified points\n";
   reader->close();
@@ -125,7 +120,7 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
   spheres->setName("spheres");
   spheres->v = std::move(points);
 
-  auto colorData = std::make_shared<DataVectorT<vec3f, OSP_FLOAT3>>();
+  auto colorData = std::make_shared<DataVectorT<vec4uc, OSP_UCHAR4>>();
   colorData->setName("color");
   colorData->v = std::move(colors);
 
