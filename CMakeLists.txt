@@ -1,6 +1,6 @@
 option(OSPRAY_MODULE_LIDAR_IMPORTER "Build LIDAR scenegraph importer module" OFF)
 
-list(APPEND CMAKE_MODULE_PATH "cmake/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 if (OSPRAY_MODULE_LIDAR_IMPORTER)
   find_package(LASTools REQUIRED)

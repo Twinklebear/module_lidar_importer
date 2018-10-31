@@ -9,6 +9,7 @@
 #include "common/sg/transferFunction/TransferFunction.h"
 #include "common/sg/common/Common.h"
 #include "common/sg/geometry/Spheres.h"
+#include "ospcommon/containers/AlignedVector.h"
 #include "ospcommon/vec.h"
 
 using namespace ospray;
@@ -75,7 +76,7 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
   const vec3f max_pt(reader->get_max_x(), reader->get_max_y(), reader->get_max_z());
   const vec3f diagonal = max_pt - min_pt;
 
-  std::vector<vec3f> points, colors;
+  ospcommon::containers::AlignedVector<vec3f> points, colors;
   points.reserve(reader->npoints);
   colors.reserve(reader->npoints);
   int num_noise = 0;
@@ -134,5 +135,5 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
   world->add(lidarGeom);
 }
 
-OSPSG_REGISTER_IMPORT_FUNCTION(importLAS, las)
+OSPSG_REGISTER_IMPORT_FUNCTION(importLAS, las);
 
