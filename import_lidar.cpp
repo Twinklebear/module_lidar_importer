@@ -72,6 +72,11 @@ void importLAS(const std::shared_ptr<Node> world, const FileName fileName){
     << ", " << reader->get_max_y()
     << ", " << reader->get_max_z() << " )\n";
 
+  if (reader->npoints == 0) {
+    std::cout << "LiDAR file has no points! Skipping import\n";
+    return;
+  }
+
   const vec3f min_pt(reader->get_min_x(), reader->get_min_y(), reader->get_min_z());
   const vec3f max_pt(reader->get_max_x(), reader->get_max_y(), reader->get_max_z());
   const vec3f diagonal = max_pt - min_pt;
